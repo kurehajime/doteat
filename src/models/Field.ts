@@ -17,10 +17,10 @@ export class Field {
         this.width = Math.sqrt(cells.length)
     }
     public Clone(): Field {
-        return new Field(this.cells.map(cell => { return Object.freeze({ ...cell }) }));
+        return new Field(this.cells.map(cell => { return { ...cell } }));
     }
     public GetCell(point: Point): Cell {
-        return this.cells[point.x + point.y * this.width]
+        return Object.freeze(this.cells[point.x + point.y * this.width])
     }
     public IsWalkable(point: Point): boolean {
         const cell = this.GetCell(point)
