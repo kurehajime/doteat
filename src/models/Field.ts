@@ -17,7 +17,7 @@ export class Field {
         this.width = Math.sqrt(cells.length)
     }
     public Clone(): Field {
-        return new Field(this.cells.map(cell => { return { ...cell } }));
+        return new Field(this.cells.map(cell => { return Object.freeze({ ...cell }) }));
     }
     public GetCell(point: Point): Cell {
         return this.cells[point.x + point.y * this.width]
