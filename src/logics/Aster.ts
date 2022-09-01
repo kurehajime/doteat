@@ -21,11 +21,16 @@ export class Aster {
         })
 
         while (openList.length < map.Count) {
-            const baseCell = openList.sort((a, b) => (b.Cost + b.Heuristic) - (a.Cost + a.Heuristic))[0]
+            const openOpenList = openList.filter(p => p.Open)
+            const baseCell = openOpenList.sort((a, b) => (a.Cost + a.Heuristic) - (b.Cost + b.Heuristic))[0]
             openList = Aster.open(map, openList, baseCell, endPoint)
             goal = openList.find(p => p.Point.x === endPoint.x && p.Point.y === endPoint.y)
             if (goal) {
                 return Aster.pullGoal(goal)
+            }
+
+            if (openList.filter(p => p.Open).length === 0) {
+                return []
             }
         }
 
