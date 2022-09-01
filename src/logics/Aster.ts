@@ -9,7 +9,7 @@ type AsterCell = {
 }
 
 export class Aster {
-    static resolve(map: Field, startPoint: Point, endPoint: Point): Point[] {
+    static findPath(map: Field, startPoint: Point, endPoint: Point): Point[] {
         let openList: AsterCell[] = []
         let goal: AsterCell | undefined
         openList.push({
