@@ -7,13 +7,11 @@ test('ちゃんとゴールする', () => {
         [
             [0, 0, 0, 0, 0],
             [0, 1, 1, 1, 0],
-            [0, 0, 0, 1, 0],
+            [0, 0, 2, 1, 0],
             [0, 1, 0, 1, 0],
-            [0, 0, 1, 1, 0],
+            [0, 0, 1, 1, 3],
         ]
-    const map = Utils.MakeMap(cells)
-    const startPoint = { x: 2, y: 2 }
-    const endPoint = { x: 4, y: 4 }
+    const [map, startPoint, endPoint] = Utils.MakeMap(cells)
     const path = Aster.findPath(map, startPoint, endPoint)
     expect(path).toEqual([
         { x: 1, y: 2 },
@@ -37,13 +35,11 @@ test('ちゃんと諦める', () => {
         [
             [0, 0, 0, 0, 0],
             [0, 1, 1, 1, 0],
-            [0, 0, 0, 1, 0],
+            [0, 0, 2, 1, 0],
             [0, 1, 0, 1, 1],
-            [0, 0, 1, 1, 0],
+            [0, 0, 1, 1, 3],
         ]
-    const map = Utils.MakeMap(cells)
-    const startPoint = { x: 2, y: 2 }
-    const endPoint = { x: 4, y: 4 }
+    const [map, startPoint, endPoint] = Utils.MakeMap(cells)
     const path = Aster.findPath(map, startPoint, endPoint)
     expect(path).toEqual([]
     )
