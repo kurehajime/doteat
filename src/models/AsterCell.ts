@@ -5,4 +5,5 @@ export type AsterCell = {
     Cost: number
     Heuristic: number
     ParentPoint: Point | null
+    Closed: boolean
 }
