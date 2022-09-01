@@ -24,6 +24,7 @@ export class Utils {
         })
         return [new Field(cells), startPoint, endPoint]
     }
+    // S:スタート G:ゴール W:壁 
     static ViewRoute(map: Field, route: Point[], startPoint: Point, endPoint: Point): string {
         let str = ""
         map.Cells.forEach((p, i) => {
