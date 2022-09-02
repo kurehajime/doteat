@@ -33,7 +33,7 @@ export default function GameController(props: Props) {
         const [map] = Utils.MakeMap(cells)
         setField(map)
         setEnemyPoint({ x: 2, y: 2 })
-        setTargetPoint({ x: 4, y: 4 })
+        setTargetPoint({ x: 9, y: 6 })
         start();
     }, [])
 
