@@ -8,14 +8,14 @@ type AsterCell = {
     Open: boolean
 }
 
-export class Aster {
+export class Astar {
     static findPath(map: Field, startPoint: Point, endPoint: Point): Point[] {
         let openList: AsterCell[] = []
         let goal: AsterCell | undefined
         openList.push({
             Point: startPoint,
             Cost: 0,
-            Heuristic: Aster.getHeuristic(startPoint, endPoint),
+            Heuristic: Astar.getHeuristic(startPoint, endPoint),
             Parent: null,
             Open: true
         })
@@ -23,10 +23,10 @@ export class Aster {
         while (openList.length < map.Count) {
             const openOpenList = openList.filter(p => p.Open)
             const baseCell = openOpenList.sort((a, b) => (a.Cost + a.Heuristic) - (b.Cost + b.Heuristic))[0]
-            openList = Aster.open(map, openList, baseCell, endPoint)
+            openList = Astar.open(map, openList, baseCell, endPoint)
             goal = openList.find(p => p.Point.x === endPoint.x && p.Point.y === endPoint.y)
             if (goal) {
-                return Aster.pullGoal(goal)
+                return Astar.pullGoal(goal)
             }
 
             if (openList.filter(p => p.Open).length === 0) {
@@ -48,14 +48,14 @@ export class Aster {
     }
 
     static open(map: Field, openList: AsterCell[], baseCell: AsterCell, endPoint: Point): AsterCell[] {
-        const neighbours = Aster.getNeighbours(map, baseCell.Point);
+        const neighbours = Astar.getNeighbours(map, baseCell.Point);
         for (const neighbour of neighbours) {
             const p = openList.find(p => p.Point.x === neighbour.x && p.Point.y === neighbour.y)
             if (!p) {
                 openList.push({
                     Point: neighbour,
                     Cost: 1,
-                    Heuristic: Aster.getHeuristic(neighbour, endPoint),
+                    Heuristic: Astar.getHeuristic(neighbour, endPoint),
                     Parent: baseCell,
                     Open: true
                 })

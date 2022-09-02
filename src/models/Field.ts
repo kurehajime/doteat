@@ -1,5 +1,6 @@
 import { Cell } from "./Cell";
 import { Point } from "./Point";
+import { Direction } from "./Types";
 
 export class Field {
     private width: number;
@@ -25,5 +26,24 @@ export class Field {
     public IsWalkable(point: Point): boolean {
         const cell = this.GetCell(point)
         return cell.State !== "wall";
+    }
+
+    public GetDirection(current: Point, target: Point): Direction {
+        if (this.GetCell(target).State === "wall") {
+            return "none";
+        }
+        if (current.x < target.x) {
+            return "right"
+        }
+        if (current.x > target.x) {
+            return "left"
+        }
+        if (current.y < target.y) {
+            return "bottom"
+        }
+        if (current.y > target.y) {
+            return "top"
+        }
+        return "none"
     }
 }
