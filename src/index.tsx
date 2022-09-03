@@ -13,7 +13,7 @@ const root = ReactDOM.createRoot(
 root.render(<div className='container'>
     <RecoilRoot>
         <GameElement
-            cellSize={50} />
+            cellSize={20} />
         <InitController />
         <TimeController />
         <LoopController />
