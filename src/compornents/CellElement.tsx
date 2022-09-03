@@ -13,7 +13,7 @@ export default function CellElement(props: Props) {
             y={props.y}
             width={props.cellSize}
             height={props.cellSize}
-            fill={props.cell.State === "wall" ? "black" : "white"}
+            fill={props.cell.State === "wall" ? "green" : "black"}
             stroke="black"></rect>
     </g>)
 }

@@ -47,8 +47,8 @@ export default function GameElement(props: Props) {
                         cellSize={props.cellSize
                         }
                     ></FieldElement >
-                    <TargetElement
-                        cellSize={props.cellSize} />
+                    {/* <TargetElement
+                        cellSize={props.cellSize} /> */}
                     <EnemyElement
                         cellSize={props.cellSize} />
                     <PlayerElement
