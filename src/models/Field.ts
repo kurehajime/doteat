@@ -68,6 +68,18 @@ export class Field {
             default:
                 return null
         }
+        if (next.x == -1) {
+            next.x = this.width - 1;
+        }
+        if (next.x == this.width) {
+            next.x = 0;
+        }
+        if (next.y == -1) {
+            next.y = this.width - 1;
+        }
+        if (next.y == this.width) {
+            next.y = 0;
+        }
         if (this.IsWalkable(next)) {
             return next;
         }
