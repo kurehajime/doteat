@@ -1,11 +1,11 @@
 import { useRecoilValue } from "recoil"
-import { targetPointState } from "../states/targetPointState"
+import { TargetPointState } from "../states/TargetPointState"
 
 type Props = {
     cellSize: number
 }
 export default function TargetElement(props: Props) {
-    const targetPoint = useRecoilValue(targetPointState)
+    const targetPoint = useRecoilValue(TargetPointState)
     return (<g>
         <circle
             cx={(targetPoint.x + 0.5) * props.cellSize}

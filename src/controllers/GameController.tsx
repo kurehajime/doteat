@@ -3,17 +3,17 @@ import { useRecoilState } from "recoil";
 import { useTimer } from "use-timer";
 import { Astar } from "../logics/Astar";
 import { Utils } from "../logics/Utils";
-import { enemyPointState } from "../states/enemyPointState";
-import { fieldState } from "../states/fieldState";
-import { targetPointState } from "../states/targetPointState";
+import { EnemyPointState } from "../states/EnemyPointState";
+import { FieldState } from "../states/FieldState";
+import { TargetPointState } from "../states/TargetPointState";
 
 type Props = {
     cellSize: number
 }
 export default function GameController(props: Props) {
-    const [enemyPoint, setEnemyPoint] = useRecoilState(enemyPointState);
-    const [targetPoint, setTargetPoint] = useRecoilState(targetPointState);
-    const [field, setField] = useRecoilState(fieldState);
+    const [enemyPoint, setEnemyPoint] = useRecoilState(EnemyPointState);
+    const [targetPoint, setTargetPoint] = useRecoilState(TargetPointState);
+    const [field, setField] = useRecoilState(FieldState);
 
     const { time, start } = useTimer({ interval: 100 });
     useEffect(() => {

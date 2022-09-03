@@ -1,12 +1,12 @@
 import { useRecoilValue } from "recoil"
-import { enemyPointState } from "../states/enemyPointState"
+import { EnemyPointState } from "../states/EnemyPointState"
 import "./EnemyElement.css"
 
 type Props = {
     cellSize: number
 }
 export default function EnemyElement(props: Props) {
-    const enemyPoint = useRecoilValue(enemyPointState)
+    const enemyPoint = useRecoilValue(EnemyPointState)
     return (<g>
         <circle className="easeIn"
             cx={(enemyPoint.x + 0.5) * props.cellSize}
