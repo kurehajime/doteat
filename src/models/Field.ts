@@ -24,6 +24,9 @@ export class Field {
         return Object.freeze(this.cells[point.x + point.y * this.width])
     }
     public IsWalkable(point: Point): boolean {
+        if (point.x === -1 || point.y === -1 || point.x >= this.width || point.y >= this.width) {
+            return false;
+        }
         const cell = this.GetCell(point)
         return cell.State !== "wall";
     }

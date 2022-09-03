@@ -2,7 +2,7 @@ import ReactDOM from 'react-dom/client'
 import { RecoilRoot } from 'recoil'
 import GameElement from './compornents/GameElement'
 import InitController from './controllers/InitController'
-import EnemyLoopController from './controllers/EnemyLoopController'
+import LoopController from './controllers/LoopController'
 import TimeController from './controllers/TimeController'
 import './index.css'
 
@@ -16,6 +16,6 @@ root.render(<div className='container'>
             cellSize={50} />
         <InitController />
         <TimeController />
-        <EnemyLoopController />
+        <LoopController />
     </RecoilRoot>
 </div>)
