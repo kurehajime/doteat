@@ -8,7 +8,7 @@ type Props = {
 export default function PlayerElement(props: Props) {
     const playerPoint = useRecoilValue(PlayerPointState)
     return (<g>
-        <circle className="easeIn"
+        <circle className="easeInPlayer"
             cx={(playerPoint.x + 0.5) * props.cellSize}
             cy={(playerPoint.y + 0.5) * props.cellSize}
             r={props.cellSize / 2}

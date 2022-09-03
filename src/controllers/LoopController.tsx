@@ -20,13 +20,17 @@ export default function LoopController() {
     const [key, setKey] = useRecoilState(KeyState)
     const [playerInertia, setPlayerInertia] = useRecoilState(PlayerInertiaState)
 
-    useEffect(() => {
-        if (field) {
-            const path = Astar.findPath(field, enemyPoint, targetPoint)
+    const enemy = () => {
+        if (field && time % 9 === 0) {
+            const path = Astar.findPath(field, enemyPoint, playerPoint)
             if (path.length > 0) {
                 setEnemyPoint(path[0])
             }
+        }
+    }
 
+    const player = () => {
+        if (field && time % 7 === 0) {
             const keyNext = key ? field.GetNext(playerPoint, key) : null
             const inertiaNext = playerInertia ? field.GetNext(playerPoint, playerInertia) : null
             if (keyNext) {
@@ -36,6 +40,11 @@ export default function LoopController() {
                 setPlayerPoint(inertiaNext)
             }
         }
+    }
+
+    useEffect(() => {
+        enemy()
+        player()
 
         return () => { return }
     }, [time])

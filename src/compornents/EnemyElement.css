@@ -1,5 +1,5 @@
-.easeIn {
-    transition: all ease-in-out 0.1s;
-    -webkit-transition: -webkit-transform all ease-in-out 0.1s;
+.easeInEnemy {
+    transition: all ease-in-out 0.5s;
+    -webkit-transition: -webkit-transform all ease-in-out 0.5s;
     cursor: pointer;
 }

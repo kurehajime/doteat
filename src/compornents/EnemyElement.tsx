@@ -8,7 +8,7 @@ type Props = {
 export default function EnemyElement(props: Props) {
     const enemyPoint = useRecoilValue(EnemyPointState)
     return (<g>
-        <circle className="easeIn"
+        <circle className="easeInEnemy"
             cx={(enemyPoint.x + 0.5) * props.cellSize}
             cy={(enemyPoint.y + 0.5) * props.cellSize}
             r={props.cellSize / 2}
