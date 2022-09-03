@@ -49,4 +49,28 @@ export class Field {
         }
         return "none"
     }
+
+    public GetNext(point: Point, key: string): Point | null {
+        let next: Point | null = null;
+        switch (key) {
+            case "ArrowUp":
+                next = { x: point.x, y: point.y - 1 }
+                break
+            case "ArrowDown":
+                next = { x: point.x, y: point.y + 1 }
+                break
+            case "ArrowLeft":
+                next = { x: point.x - 1, y: point.y }
+                break
+            case "ArrowRight":
+                next = { x: point.x + 1, y: point.y }
+                break
+            default:
+                return null
+        }
+        if (this.IsWalkable(next)) {
+            return next;
+        }
+        return null
+    }
 }

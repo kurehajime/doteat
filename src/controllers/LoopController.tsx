@@ -5,6 +5,7 @@ import { Point } from "../models/Point";
 import { EnemyPointState } from "../states/EnemyPointState";
 import { FieldState } from "../states/FieldState";
 import { KeyState } from "../states/KeyState";
+import { PlayerInertiaState } from "../states/PlayerInertiaState";
 import { PlayerPointState } from "../states/PlayerPointState";
 import { TargetPointState } from "../states/TargetPointState";
 import { TimeState } from "../states/TimeState";
@@ -17,6 +18,7 @@ export default function LoopController() {
     const time = useRecoilValue(TimeState)
     const field = useRecoilValue(FieldState);
     const [key, setKey] = useRecoilState(KeyState)
+    const [playerInertia, setPlayerInertia] = useRecoilState(PlayerInertiaState)
 
     useEffect(() => {
         if (field) {
@@ -24,27 +26,14 @@ export default function LoopController() {
             if (path.length > 0) {
                 setEnemyPoint(path[0])
             }
-            let next: Point | null = null;
 
-            if (key) {
-                switch (key) {
-                    case "ArrowUp":
-                        next = { x: playerPoint.x, y: playerPoint.y - 1 }
-                        break;
-                    case "ArrowDown":
-                        next = { x: playerPoint.x, y: playerPoint.y + 1 }
-                        break;
-                    case "ArrowLeft":
-                        next = { x: playerPoint.x - 1, y: playerPoint.y }
-                        break;
-                    case "ArrowRight":
-                        next = { x: playerPoint.x + 1, y: playerPoint.y }
-                        break;
-                }
-                if (next && field.IsWalkable(next)) {
-                    setPlayerPoint(next)
-                }
-                setKey(null)
+            const keyNext = key ? field.GetNext(playerPoint, key) : null
+            const inertiaNext = playerInertia ? field.GetNext(playerPoint, playerInertia) : null
+            if (keyNext) {
+                setPlayerPoint(keyNext)
+                setPlayerInertia(key)
+            } else if (inertiaNext) {
+                setPlayerPoint(inertiaNext)
             }
         }
 
