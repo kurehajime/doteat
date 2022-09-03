@@ -7,7 +7,7 @@ import { TargetPointState } from "../states/TargetPointState";
 import { TimeState } from "../states/TimeState";
 
 
-export default function LoopController() {
+export default function EnemyLoopController() {
     const [enemyPoint, setEnemyPoint] = useRecoilState(EnemyPointState);
     const targetPoint = useRecoilValue(TargetPointState);
     const time = useRecoilValue(TimeState)
