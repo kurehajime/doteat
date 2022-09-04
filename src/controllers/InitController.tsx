@@ -1,15 +1,16 @@
 import { useEffect } from "react";
 import { useRecoilState, useSetRecoilState } from "recoil";
 import { Utils } from "../logics/Utils";
+import { Enemy } from "../models/Enemy";
 import { DotsState } from "../states/DotsState";
-import { EnemyRedPointState } from "../states/EnemyRedPointState";
+import { EnemyRedState } from "../states/EnemyRedState";
 import { FieldState } from "../states/FieldState";
 import { InitState } from "../states/InitState";
 import { PlayerPointState } from "../states/PlayerPointState";
 import { TargetPointState } from "../states/TargetPointState";
 
 export default function InitController() {
-    const setEnemyPoint = useSetRecoilState(EnemyRedPointState);
+    const setEnemyRed = useSetRecoilState(EnemyRedState);
     const setPlayerPoint = useSetRecoilState(PlayerPointState);
     const setTargetPoint = useSetRecoilState(TargetPointState);
     const setField = useSetRecoilState(FieldState);
@@ -56,7 +57,7 @@ export default function InitController() {
             const [map, dots] = Utils.MakeMap(cells)
             setField(map)
             setDots(dots)
-            setEnemyPoint({ x: 1, y: 1 })
+            setEnemyRed(new Enemy({ x: 1, y: 1 }, "red"))
             setPlayerPoint({ x: 10, y: 10 })
             setTargetPoint({ x: 25, y: 25 })
         }

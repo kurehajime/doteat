@@ -1,9 +1,8 @@
 import { useEffect } from "react";
 import { useRecoilState, useRecoilValue } from "recoil";
-import { Enemy } from "../logics/Enemy";
 import { DotsState } from "../states/DotsState";
 import { EnemyModeState } from "../states/EnemyModeState";
-import { EnemyRedPointState } from "../states/EnemyRedPointState";
+import { EnemyRedState } from "../states/EnemyRedState";
 import { FieldState } from "../states/FieldState";
 import { FilledState } from "../states/FilledState";
 import { FootPrintState } from "../states/FootPrintState";
@@ -14,7 +13,7 @@ import { TimeState } from "../states/TimeState";
 
 
 export default function LoopController() {
-    const [enemyRedPoint, setEnemyRedPoint] = useRecoilState(EnemyRedPointState);
+    const [enemyRed, setEnemyRed] = useRecoilState(EnemyRedState);
     const [playerPoint, setPlayerPoint] = useRecoilState(PlayerPointState);
     const time = useRecoilValue(TimeState)
     const field = useRecoilValue(FieldState);
@@ -25,9 +24,9 @@ export default function LoopController() {
     const [dots, setDots] = useRecoilState(DotsState)
     const [enemyMode, setEnemyMode] = useRecoilState(EnemyModeState)
 
-    const enemyRed = () => {
+    const enemyRedMove = () => {
         if (field && time % 9 === 0) {
-            setEnemyRedPoint(Enemy.track(field, enemyRedPoint, playerPoint))
+            setEnemyRed(enemyRed.next(field, enemyRed.point, playerPoint))
         }
     }
 
@@ -59,15 +58,15 @@ export default function LoopController() {
     }
     const jail = () => {
         if (filled) {
-            if (footPrint.Hit(enemyRedPoint)) {
-                setEnemyRedPoint({ x: 15, y: 15 })
+            if (footPrint.Hit(enemyRed.point)) {
+                setEnemyRed(enemyRed.setPoint({ x: 15, y: 15 }))
             }
             setFilled(false)
             setFootPrint(footPrint.Clear())
         }
     }
     const checkGameOver = () => {
-        if (enemyRedPoint.x === playerPoint.x && enemyRedPoint.y === playerPoint.y) {
+        if (enemyRed.point.x === playerPoint.x && enemyRed.point.y === playerPoint.y) {
             setPlayerPoint({ x: 15, y: 15 })
         }
     }
@@ -87,7 +86,7 @@ export default function LoopController() {
     }
 
     useEffect(() => {
-        enemyRed()
+        enemyRedMove()
         player()
         modeChange()
         return () => { return }
