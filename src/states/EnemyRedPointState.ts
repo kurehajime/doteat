@@ -1,7 +1,7 @@
 import { atom } from "recoil";
 import { Point } from "../models/Point";
 
-export const EnemyPointState = atom<Point>({
-    key: 'EnemyPointState',
+export const EnemyRedPointState = atom<Point>({
+    key: 'EnemyRedPointState',
     default: { x: 0, y: 0 }
 });

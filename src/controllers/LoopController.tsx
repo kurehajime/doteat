@@ -1,9 +1,9 @@
 import { useEffect } from "react";
-import { useRecoilState, useRecoilValue, useSetRecoilState } from "recoil";
-import { Astar } from "../logics/Astar";
-import { Dots } from "../models/Dots";
+import { useRecoilState, useRecoilValue } from "recoil";
+import { Enemy } from "../logics/Enemy";
 import { DotsState } from "../states/DotsState";
-import { EnemyPointState } from "../states/EnemyPointState";
+import { EnemyModeState } from "../states/EnemyModeState";
+import { EnemyRedPointState } from "../states/EnemyRedPointState";
 import { FieldState } from "../states/FieldState";
 import { FilledState } from "../states/FilledState";
 import { FootPrintState } from "../states/FootPrintState";
@@ -14,7 +14,7 @@ import { TimeState } from "../states/TimeState";
 
 
 export default function LoopController() {
-    const [enemyPoint, setEnemyPoint] = useRecoilState(EnemyPointState);
+    const [enemyRedPoint, setEnemyRedPoint] = useRecoilState(EnemyRedPointState);
     const [playerPoint, setPlayerPoint] = useRecoilState(PlayerPointState);
     const time = useRecoilValue(TimeState)
     const field = useRecoilValue(FieldState);
@@ -23,13 +23,11 @@ export default function LoopController() {
     const [footPrint, setFootPrint] = useRecoilState(FootPrintState)
     const [filled, setFilled] = useRecoilState(FilledState)
     const [dots, setDots] = useRecoilState(DotsState)
+    const [enemyMode, setEnemyMode] = useRecoilState(EnemyModeState)
 
-    const enemy = () => {
+    const enemyRed = () => {
         if (field && time % 9 === 0) {
-            const path = Astar.findPath(field, enemyPoint, playerPoint)
-            if (path.length > 0) {
-                setEnemyPoint(path[0])
-            }
+            setEnemyRedPoint(Enemy.track(field, enemyRedPoint, playerPoint))
         }
     }
 
@@ -61,15 +59,15 @@ export default function LoopController() {
     }
     const jail = () => {
         if (filled) {
-            if (footPrint.Hit(enemyPoint)) {
-                setEnemyPoint({ x: 15, y: 15 })
+            if (footPrint.Hit(enemyRedPoint)) {
+                setEnemyRedPoint({ x: 15, y: 15 })
             }
             setFilled(false)
             setFootPrint(footPrint.Clear())
         }
     }
     const checkGameOver = () => {
-        if (enemyPoint.x === playerPoint.x && enemyPoint.y === playerPoint.y) {
+        if (enemyRedPoint.x === playerPoint.x && enemyRedPoint.y === playerPoint.y) {
             setPlayerPoint({ x: 15, y: 15 })
         }
     }
@@ -77,12 +75,21 @@ export default function LoopController() {
         const newDots = dots.Eat(playerPoint)
         setDots(newDots[1])
     }
-
+    const modeChange = () => {
+        if (time % 101 === 0) {
+            if (enemyMode === "normal") {
+                setEnemyMode("random")
+            }
+            if (enemyMode === "random") {
+                setEnemyMode("normal")
+            }
+        }
+    }
 
     useEffect(() => {
-        enemy()
+        enemyRed()
         player()
-
+        modeChange()
         return () => { return }
     }, [time])
 

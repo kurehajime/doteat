@@ -2,14 +2,14 @@ import { useEffect } from "react";
 import { useRecoilState, useSetRecoilState } from "recoil";
 import { Utils } from "../logics/Utils";
 import { DotsState } from "../states/DotsState";
-import { EnemyPointState } from "../states/EnemyPointState";
+import { EnemyRedPointState } from "../states/EnemyRedPointState";
 import { FieldState } from "../states/FieldState";
 import { InitState } from "../states/InitState";
 import { PlayerPointState } from "../states/PlayerPointState";
 import { TargetPointState } from "../states/TargetPointState";
 
 export default function InitController() {
-    const setEnemyPoint = useSetRecoilState(EnemyPointState);
+    const setEnemyPoint = useSetRecoilState(EnemyRedPointState);
     const setPlayerPoint = useSetRecoilState(PlayerPointState);
     const setTargetPoint = useSetRecoilState(TargetPointState);
     const setField = useSetRecoilState(FieldState);
