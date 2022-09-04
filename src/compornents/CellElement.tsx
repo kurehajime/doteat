@@ -21,7 +21,7 @@ export default function CellElement(props: Props) {
         if (filled) {
             color = "#FFFF33"
         } else {
-            color = "#FFFF66"
+            color = "#CCCC00"
         }
     } else {
         color = "black"
