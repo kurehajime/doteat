@@ -1,5 +1,5 @@
 import { expect, test } from 'vitest'
-import { Aster } from '../src/logics/Aster'
+import { Astar } from '../src/logics/Astar'
 import { Utils } from '../src/logics/Utils'
 
 test('ちゃんとゴールする', () => {
@@ -7,12 +7,14 @@ test('ちゃんとゴールする', () => {
         [
             [0, 0, 0, 0, 0],
             [0, 1, 1, 1, 0],
-            [0, 0, 2, 1, 0],
+            [0, 0, 0, 1, 0],
             [0, 1, 0, 1, 0],
-            [0, 0, 1, 1, 3],
+            [0, 0, 1, 1, 0],
         ]
-    const [map, startPoint, endPoint] = Utils.MakeMap(cells)
-    const path = Aster.findPath(map, startPoint, endPoint)
+    const [map] = Utils.MakeMap(cells)
+    const startPoint = { x: 2, y: 2 }
+    const endPoint = { x: 4, y: 4 }
+    const path = Astar.findPath(map, startPoint, endPoint)
     expect(path).toEqual([
         { x: 1, y: 2 },
         { x: 0, y: 2 },
@@ -35,12 +37,14 @@ test('ちゃんと諦める', () => {
         [
             [0, 0, 0, 0, 0],
             [0, 1, 1, 1, 0],
-            [0, 0, 2, 1, 0],
+            [0, 0, 0, 1, 0],
             [0, 1, 0, 1, 1],
-            [0, 0, 1, 1, 3],
+            [0, 0, 1, 1, 0],
         ]
-    const [map, startPoint, endPoint] = Utils.MakeMap(cells)
-    const path = Aster.findPath(map, startPoint, endPoint)
+    const [map] = Utils.MakeMap(cells)
+    const startPoint = { x: 2, y: 2 }
+    const endPoint = { x: 4, y: 4 }
+    const path = Astar.findPath(map, startPoint, endPoint)
     expect(path).toEqual([]
     )
 })

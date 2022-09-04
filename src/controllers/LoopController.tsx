@@ -1,6 +1,8 @@
 import { useEffect } from "react";
-import { useRecoilState, useRecoilValue } from "recoil";
+import { useRecoilState, useRecoilValue, useSetRecoilState } from "recoil";
 import { Astar } from "../logics/Astar";
+import { Dots } from "../models/Dots";
+import { DotsState } from "../states/DotsState";
 import { EnemyPointState } from "../states/EnemyPointState";
 import { FieldState } from "../states/FieldState";
 import { FilledState } from "../states/FilledState";
@@ -20,6 +22,7 @@ export default function LoopController() {
     const [playerInertia, setPlayerInertia] = useRecoilState(PlayerInertiaState)
     const [footPrint, setFootPrint] = useRecoilState(FootPrintState)
     const [filled, setFilled] = useRecoilState(FilledState)
+    const [dots, setDots] = useRecoilState(DotsState)
 
     const enemy = () => {
         if (field && time % 9 === 0) {
@@ -41,8 +44,10 @@ export default function LoopController() {
             } else if (inertiaNext) {
                 setPlayerPoint(inertiaNext)
             }
-            jail()
+            eat()
             fill()
+            jail()
+            checkGameOver()
         }
     }
     const fill = () => {
@@ -62,6 +67,15 @@ export default function LoopController() {
             setFilled(false)
             setFootPrint(footPrint.Clear())
         }
+    }
+    const checkGameOver = () => {
+        if (enemyPoint.x === playerPoint.x && enemyPoint.y === playerPoint.y) {
+            setPlayerPoint({ x: 15, y: 15 })
+        }
+    }
+    const eat = () => {
+        const newDots = dots.Eat(playerPoint)
+        setDots(newDots[1])
     }
 
 
