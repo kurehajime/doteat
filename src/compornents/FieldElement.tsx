@@ -7,7 +7,6 @@ type Props = {
 }
 export default function FieldElement(props: Props) {
     const field = useRecoilValue(FieldState)
-
     return (<g>
         {
             field?.Cells.map((cell, index) => {
