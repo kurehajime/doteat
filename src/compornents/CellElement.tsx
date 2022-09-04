@@ -1,5 +1,6 @@
 import { useRecoilValue } from "recoil"
 import { Cell } from "../models/Cell"
+import { FilledState } from "../states/FilledState"
 import { FootPrintState } from "../states/FootPrintState"
 
 type Props = {
@@ -10,8 +11,22 @@ type Props = {
 }
 export default function CellElement(props: Props) {
     const footPrint = useRecoilValue(FootPrintState)
+    const filled = useRecoilValue(FilledState)
+
     const foot = footPrint.Hit(props.cell.Point)
-    const color = props.cell.State === "wall" ? "green" : foot ? "#FFFF66" : "black"
+    let color: string
+    if (props.cell.State === "wall") {
+        color = "green"
+    } else if (foot) {
+        if (filled) {
+            color = "#FFFF33"
+        } else {
+            color = "#FFFF66"
+        }
+    } else {
+        color = "black"
+    }
+
     return (<g>
         <rect
             x={props.x}

@@ -1,14 +1,13 @@
 import { useEffect } from "react";
 import { useRecoilState, useRecoilValue } from "recoil";
 import { Astar } from "../logics/Astar";
-import { Point } from "../models/Point";
 import { EnemyPointState } from "../states/EnemyPointState";
 import { FieldState } from "../states/FieldState";
+import { FilledState } from "../states/FilledState";
 import { FootPrintState } from "../states/FootPrintState";
 import { KeyState } from "../states/KeyState";
 import { PlayerInertiaState } from "../states/PlayerInertiaState";
 import { PlayerPointState } from "../states/PlayerPointState";
-import { TargetPointState } from "../states/TargetPointState";
 import { TimeState } from "../states/TimeState";
 
 
@@ -20,6 +19,7 @@ export default function LoopController() {
     const [key] = useRecoilState(KeyState)
     const [playerInertia, setPlayerInertia] = useRecoilState(PlayerInertiaState)
     const [footPrint, setFootPrint] = useRecoilState(FootPrintState)
+    const [filled, setFilled] = useRecoilState(FilledState)
 
     const enemy = () => {
         if (field && time % 9 === 0) {
@@ -41,8 +41,29 @@ export default function LoopController() {
             } else if (inertiaNext) {
                 setPlayerPoint(inertiaNext)
             }
+            jail()
+            fill()
         }
     }
+    const fill = () => {
+        if (field) {
+            const fillfoot = footPrint.Fill(field.Width)
+            if (fillfoot[0] && fillfoot[1]) {
+                setFootPrint(fillfoot[1])
+                setFilled(true)
+            }
+        }
+    }
+    const jail = () => {
+        if (filled) {
+            if (footPrint.Hit(enemyPoint)) {
+                setEnemyPoint({ x: 15, y: 15 })
+            }
+            setFilled(false)
+            setFootPrint(footPrint.Clear())
+        }
+    }
+
 
     useEffect(() => {
         enemy()
