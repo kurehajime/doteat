@@ -30,6 +30,24 @@ export class Field {
         const cell = this.GetCell(point)
         return cell.State !== "wall";
     }
+    public getBranch = (point: Point, direction: string): Point[] => {
+        if (direction === "ArrowDown" || direction === "ArrowUp") {
+            return this.Cells.
+                filter(cell => this.IsWalkable(cell.Point)).
+                filter(cell => {
+                    return (cell.Point.x === point.x + 1 && cell.Point.y === point.y) ||
+                        (cell.Point.x === point.x - 1 && cell.Point.y === point.y)
+                }).map(x => x.Point)
+        } else if (direction === "ArrowLeft" || direction === "ArrowRight") {
+            return this.Cells.
+                filter(cell => this.IsWalkable(cell.Point)).
+                filter(cell => {
+                    return (cell.Point.x === point.x && cell.Point.y === point.y + 1) ||
+                        (cell.Point.x === point.x && cell.Point.y === point.y - 1)
+                }).map(x => x.Point)
+        }
+        return []
+    }
 
     public GetDirection(current: Point, target: Point): Direction {
         if (this.GetCell(target).State === "wall") {

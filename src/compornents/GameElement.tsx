@@ -3,7 +3,7 @@ import { useRecoilValue, useSetRecoilState } from "recoil"
 import { FieldState } from "../states/FieldState"
 import { KeyState } from "../states/KeyState"
 import { TargetPointState } from "../states/TargetPointState"
-import EnemyRedElement from "./EnemyRedElement"
+import EnemyElement from "./EnemyElement"
 import FieldElement from "./FieldElement"
 import PlayerElement from "./PlayerElement"
 import { useKey } from 'react-use';
@@ -48,7 +48,8 @@ export default function GameElement(props: Props) {
                     ></FieldElement >
                     {/* <TargetElement
                         cellSize={props.cellSize} /> */}
-                    <EnemyRedElement
+                    <EnemyElement
+                        character="red"
                         cellSize={props.cellSize} />
                     <PlayerElement
                         cellSize={props.cellSize} />

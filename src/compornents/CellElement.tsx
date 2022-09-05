@@ -19,7 +19,11 @@ export default function CellElement(props: Props) {
     const dot = dots.Hit(props.cell.Point)
     let color: string
     if (props.cell.State === "wall") {
-        color = "green"
+        if (foot) {
+            color = "lightgreen"
+        } else {
+            color = "green"
+        }
     } else if (foot) {
         if (filled) {
             color = "#FFFF33"

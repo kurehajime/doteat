@@ -1,9 +1,11 @@
 import { useRecoilValue } from "recoil"
+import { Character } from "../models/Types"
 import { EnemyRedState } from "../states/EnemyRedState"
-import "./EnemyRedElement.css"
+import "./EnemyElement.css"
 
 type Props = {
     cellSize: number
+    character: Character
 }
 export default function EnemyRedElement(props: Props) {
     const enemy = useRecoilValue(EnemyRedState)

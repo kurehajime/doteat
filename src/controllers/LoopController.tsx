@@ -1,3 +1,4 @@
+import { createSecretKey } from "crypto";
 import { useEffect } from "react";
 import { useRecoilState, useRecoilValue } from "recoil";
 import { DotsState } from "../states/DotsState";
@@ -17,7 +18,7 @@ export default function LoopController() {
     const [playerPoint, setPlayerPoint] = useRecoilState(PlayerPointState);
     const time = useRecoilValue(TimeState)
     const field = useRecoilValue(FieldState);
-    const [key] = useRecoilState(KeyState)
+    const [key, setKey] = useRecoilState(KeyState)
     const [playerInertia, setPlayerInertia] = useRecoilState(PlayerInertiaState)
     const [footPrint, setFootPrint] = useRecoilState(FootPrintState)
     const [filled, setFilled] = useRecoilState(FilledState)
@@ -26,7 +27,7 @@ export default function LoopController() {
 
     const enemyRedMove = () => {
         if (field && time % 9 === 0) {
-            setEnemyRed(enemyRed.next(field, enemyRed.point, playerPoint))
+            setEnemyRed(enemyRed.next(field, playerPoint, dots))
         }
     }
 
