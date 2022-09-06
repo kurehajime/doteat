@@ -21,8 +21,6 @@ export class Enemy {
     }
 
     public next(field: Field, player: Point, dots: Dots): Enemy {
-
-        console.log(this.Mode)
         if (this.Mode === "normal") {
             const next = this.track(field, player)
             return new Enemy(next, this.charactor, this.target, this.tick + 1)

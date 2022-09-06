@@ -1,4 +1,3 @@
-import { createSecretKey } from "crypto";
 import { useEffect } from "react";
 import { useRecoilState, useRecoilValue } from "recoil";
 import { DotsState } from "../states/DotsState";
@@ -11,7 +10,7 @@ import { KeyState } from "../states/KeyState";
 import { PlayerInertiaState } from "../states/PlayerInertiaState";
 import { PlayerPointState } from "../states/PlayerPointState";
 import { TimeState } from "../states/TimeState";
-
+import { useKey } from 'react-use';
 
 export default function LoopController() {
     const [enemyRed, setEnemyRed] = useRecoilState(EnemyRedState);
@@ -85,6 +84,11 @@ export default function LoopController() {
             }
         }
     }
+
+    useKey('ArrowDown', () => { setKey('ArrowDown') });
+    useKey('ArrowUp', () => { setKey('ArrowUp') });
+    useKey('ArrowLeft', () => { setKey('ArrowLeft') });
+    useKey('ArrowRight', () => { setKey('ArrowRight') });
 
     useEffect(() => {
         enemyRedMove()

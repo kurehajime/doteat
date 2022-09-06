@@ -1,12 +1,10 @@
 import React from "react"
 import { useRecoilValue, useSetRecoilState } from "recoil"
 import { FieldState } from "../states/FieldState"
-import { KeyState } from "../states/KeyState"
 import { TargetPointState } from "../states/TargetPointState"
 import EnemyElement from "./EnemyElement"
 import FieldElement from "./FieldElement"
 import PlayerElement from "./PlayerElement"
-import { useKey } from 'react-use';
 
 type Props = {
     cellSize: number
@@ -14,7 +12,6 @@ type Props = {
 export default function GameElement(props: Props) {
     const field = useRecoilValue(FieldState)
     const setTargetPoint = useSetRecoilState(TargetPointState);
-    const setKey = useSetRecoilState(KeyState)
 
 
     const mouseClick = (e: React.PointerEvent<SVGSVGElement>) => {
@@ -25,14 +22,6 @@ export default function GameElement(props: Props) {
         e.preventDefault()
     }
 
-    const ArrowDown = () => setKey('ArrowDown');
-    const ArrowUp = () => setKey('ArrowUp');
-    const ArrowLeft = () => setKey('ArrowLeft');
-    const ArrowRight = () => setKey('ArrowRight');
-    useKey('ArrowDown', ArrowDown);
-    useKey('ArrowUp', ArrowUp);
-    useKey('ArrowLeft', ArrowLeft);
-    useKey('ArrowRight', ArrowRight);
 
     if (field) {
         return (
