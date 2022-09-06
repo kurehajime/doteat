@@ -31,7 +31,7 @@ export default function LoopController(props: Props) {
     const [footPrint, setFootPrint] = useRecoilState(FootPrintState)
     const [filled, setFilled] = useRecoilState(FilledState)
     const [dots, setDots] = useRecoilState(DotsState)
-    const setScore = useSetRecoilState(ScoreState)
+    const [score, setScore] = useRecoilState(ScoreState)
     const [enemyMode, setEnemyMode] = useRecoilState(EnemyModeState)
     const playerPoint = { x: Math.round(playerMiliPoint.x / props.cellSize), y: Math.round(playerMiliPoint.y / props.cellSize) }
 
@@ -60,17 +60,23 @@ export default function LoopController(props: Props) {
         if (field && time % 3 === 0) {
             const keyNext = key ? field.GetNext(playerPoint, key) : null
             const inertiaNext = playerInertia ? field.GetNext(playerPoint, playerInertia) : null
-            let move = false;
+            let next = playerPoint
+            let move = false
             setFootPrint(footPrint.Add(playerPoint))
             if (keyNext) {
-                setPlayerMiliPoint({ x: playerMiliPoint.x + keyNext.x * (props.cellSize / 3), y: playerMiliPoint.y + keyNext.y * (props.cellSize / 3) })
+                next = { x: playerMiliPoint.x + keyNext.x * (props.cellSize / 3), y: playerMiliPoint.y + keyNext.y * (props.cellSize / 3) }
+                setPlayerMiliPoint(next)
                 setPlayerInertia(key)
-                move = true;
+                move = true
             } else if (inertiaNext) {
-                setPlayerMiliPoint({ x: playerMiliPoint.x + inertiaNext.x * (props.cellSize / 3), y: playerMiliPoint.y + inertiaNext.y * (props.cellSize / 3) })
-                move = true;
+                next = { x: playerMiliPoint.x + inertiaNext.x * (props.cellSize / 3), y: playerMiliPoint.y + inertiaNext.y * (props.cellSize / 3) }
+                setPlayerMiliPoint(next)
+                move = true
             }
-            eat()
+            const nextPoint = { x: Math.round(next.x / props.cellSize), y: Math.round(next.y / props.cellSize) }
+            if (move && (nextPoint.x !== playerPoint.x || nextPoint.y !== playerPoint.y)) {
+                eat()
+            }
             fill()
             jail()
             checkGameOver()
@@ -116,12 +122,19 @@ export default function LoopController(props: Props) {
         if (enemyOrange.point.x === playerPoint.x && enemyOrange.point.y === playerPoint.y) {
             setPlayerMiliPoint({ x: 15 * props.cellSize, y: 15 * props.cellSize })
         }
+        if (score) {
+            if (score < 0) {
+                setPlayerMiliPoint({ x: 15 * props.cellSize, y: 15 * props.cellSize })
+            }
+        }
     }
     const eat = () => {
         const newDots = dots.Eat(playerPoint)
         setDots(newDots[1])
         if (newDots[0]) {
             setScore(score => score + 1)
+        } else {
+            setScore(score => score - 1)
         }
 
     }

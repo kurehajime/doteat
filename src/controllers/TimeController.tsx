@@ -8,7 +8,7 @@ import { TimeState } from "../states/TimeState";
 export default function TimeController() {
     const init = useRecoilValue(InitState)
 
-    const { time: _time, start } = useTimer({ interval: 30 });
+    const { time: _time, start } = useTimer({ interval: 20 });
     const setTime = useSetRecoilState(TimeState)
 
     useEffect(() => {
