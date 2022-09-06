@@ -1,5 +1,5 @@
 import { useEffect } from "react";
-import { useRecoilState, useRecoilValue } from "recoil";
+import { useRecoilState, useRecoilValue, useSetRecoilState } from "recoil";
 import { DotsState } from "../states/DotsState";
 import { EnemyModeState } from "../states/EnemyModeState";
 import { EnemyRedState } from "../states/EnemyRedState";
@@ -14,6 +14,7 @@ import { useKey } from 'react-use';
 import { EnemyBlueState } from "../states/EnemyBlueState";
 import { EnemyOrangeState } from "../states/EnemyOrangeState";
 import { EnemyPinkState } from "../states/EnemyPinkState";
+import { ScoreState } from "../states/ScoreState";
 type Props = {
     cellSize: number
 }
@@ -30,6 +31,7 @@ export default function LoopController(props: Props) {
     const [footPrint, setFootPrint] = useRecoilState(FootPrintState)
     const [filled, setFilled] = useRecoilState(FilledState)
     const [dots, setDots] = useRecoilState(DotsState)
+    const setScore = useSetRecoilState(ScoreState)
     const [enemyMode, setEnemyMode] = useRecoilState(EnemyModeState)
     const playerPoint = { x: Math.round(playerMiliPoint.x / props.cellSize), y: Math.round(playerMiliPoint.y / props.cellSize) }
 
@@ -58,12 +60,15 @@ export default function LoopController(props: Props) {
         if (field && time % 3 === 0) {
             const keyNext = key ? field.GetNext(playerPoint, key) : null
             const inertiaNext = playerInertia ? field.GetNext(playerPoint, playerInertia) : null
+            let move = false;
             setFootPrint(footPrint.Add(playerPoint))
             if (keyNext) {
                 setPlayerMiliPoint({ x: playerMiliPoint.x + keyNext.x * (props.cellSize / 3), y: playerMiliPoint.y + keyNext.y * (props.cellSize / 3) })
                 setPlayerInertia(key)
+                move = true;
             } else if (inertiaNext) {
                 setPlayerMiliPoint({ x: playerMiliPoint.x + inertiaNext.x * (props.cellSize / 3), y: playerMiliPoint.y + inertiaNext.y * (props.cellSize / 3) })
+                move = true;
             }
             eat()
             fill()
@@ -115,6 +120,10 @@ export default function LoopController(props: Props) {
     const eat = () => {
         const newDots = dots.Eat(playerPoint)
         setDots(newDots[1])
+        if (newDots[0]) {
+            setScore(score => score + 1)
+        }
+
     }
     const modeChange = () => {
         if (time % 101 === 0) {

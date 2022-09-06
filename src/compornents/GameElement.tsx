@@ -5,6 +5,7 @@ import { TargetPointState } from "../states/TargetPointState"
 import EnemyElement from "./EnemyElement"
 import FieldElement from "./FieldElement"
 import PlayerElement from "./PlayerElement"
+import ScoreElement from "./ScoreElement"
 
 type Props = {
     cellSize: number
@@ -52,6 +53,7 @@ export default function GameElement(props: Props) {
                     <PlayerElement
                         cellSize={props.cellSize} />
                 </svg>
+                <ScoreElement cellSize={props.cellSize} />
             </div>
         )
     } else {
