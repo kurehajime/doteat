@@ -6,12 +6,14 @@ import { DotsState } from "../states/DotsState";
 import { EnemyRedState } from "../states/EnemyRedState";
 import { FieldState } from "../states/FieldState";
 import { InitState } from "../states/InitState";
-import { PlayerPointState } from "../states/PlayerPointState";
+import { PlayerMiliPointState } from "../states/PlayerMiliPointState";
 import { TargetPointState } from "../states/TargetPointState";
-
-export default function InitController() {
+type Props = {
+    cellSize: number
+}
+export default function InitController(props: Props) {
     const setEnemyRed = useSetRecoilState(EnemyRedState);
-    const setPlayerPoint = useSetRecoilState(PlayerPointState);
+    const setMiliPlayerPoint = useSetRecoilState(PlayerMiliPointState);
     const setTargetPoint = useSetRecoilState(TargetPointState);
     const setField = useSetRecoilState(FieldState);
     const setDots = useSetRecoilState(DotsState)
@@ -58,7 +60,7 @@ export default function InitController() {
             setField(map)
             setDots(dots)
             setEnemyRed(new Enemy({ x: 1, y: 1 }, "red"))
-            setPlayerPoint({ x: 10, y: 10 })
+            setMiliPlayerPoint({ x: 10 * props.cellSize, y: 10 * props.cellSize })
             setTargetPoint({ x: 25, y: 25 })
         }
     }, [init])

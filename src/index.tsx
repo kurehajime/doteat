@@ -14,8 +14,10 @@ root.render(<div className='container'>
     <RecoilRoot>
         <GameElement
             cellSize={20} />
-        <InitController />
+        <InitController
+            cellSize={20} />
         <TimeController />
-        <LoopController />
+        <LoopController
+            cellSize={20} />
     </RecoilRoot>
 </div>)

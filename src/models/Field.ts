@@ -99,7 +99,7 @@ export class Field {
             next.y = 0;
         }
         if (this.IsWalkable(next)) {
-            return next;
+            return { x: next.x - point.x, y: next.y - point.y };
         }
         return null
     }

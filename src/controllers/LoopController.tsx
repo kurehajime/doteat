@@ -8,13 +8,15 @@ import { FilledState } from "../states/FilledState";
 import { FootPrintState } from "../states/FootPrintState";
 import { KeyState } from "../states/KeyState";
 import { PlayerInertiaState } from "../states/PlayerInertiaState";
-import { PlayerPointState } from "../states/PlayerPointState";
+import { PlayerMiliPointState } from "../states/PlayerMiliPointState";
 import { TimeState } from "../states/TimeState";
 import { useKey } from 'react-use';
-
-export default function LoopController() {
+type Props = {
+    cellSize: number
+}
+export default function LoopController(props: Props) {
     const [enemyRed, setEnemyRed] = useRecoilState(EnemyRedState);
-    const [playerPoint, setPlayerPoint] = useRecoilState(PlayerPointState);
+    const [playerMiliPoint, setPlayerMiliPoint] = useRecoilState(PlayerMiliPointState);
     const time = useRecoilValue(TimeState)
     const field = useRecoilValue(FieldState);
     const [key, setKey] = useRecoilState(KeyState)
@@ -23,6 +25,7 @@ export default function LoopController() {
     const [filled, setFilled] = useRecoilState(FilledState)
     const [dots, setDots] = useRecoilState(DotsState)
     const [enemyMode, setEnemyMode] = useRecoilState(EnemyModeState)
+    const playerPoint = { x: Math.round(playerMiliPoint.x / props.cellSize), y: Math.round(playerMiliPoint.y / props.cellSize) }
 
     const enemyRedMove = () => {
         if (field && time % 9 === 0) {
@@ -31,15 +34,15 @@ export default function LoopController() {
     }
 
     const player = () => {
-        if (field && time % 7 === 0) {
+        if (field && time % 3 === 0) {
             const keyNext = key ? field.GetNext(playerPoint, key) : null
             const inertiaNext = playerInertia ? field.GetNext(playerPoint, playerInertia) : null
             setFootPrint(footPrint.Add(playerPoint))
             if (keyNext) {
-                setPlayerPoint(keyNext)
+                setPlayerMiliPoint({ x: playerMiliPoint.x + keyNext.x * (props.cellSize / 3), y: playerMiliPoint.y + keyNext.y * (props.cellSize / 3) })
                 setPlayerInertia(key)
             } else if (inertiaNext) {
-                setPlayerPoint(inertiaNext)
+                setPlayerMiliPoint({ x: playerMiliPoint.x + inertiaNext.x * (props.cellSize / 3), y: playerMiliPoint.y + inertiaNext.y * (props.cellSize / 3) })
             }
             eat()
             fill()
@@ -67,7 +70,7 @@ export default function LoopController() {
     }
     const checkGameOver = () => {
         if (enemyRed.point.x === playerPoint.x && enemyRed.point.y === playerPoint.y) {
-            setPlayerPoint({ x: 15, y: 15 })
+            setPlayerMiliPoint({ x: 15 * props.cellSize, y: 15 * props.cellSize })
         }
     }
     const eat = () => {
