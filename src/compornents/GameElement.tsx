@@ -40,6 +40,15 @@ export default function GameElement(props: Props) {
                     <EnemyElement
                         character="red"
                         cellSize={props.cellSize} />
+                    <EnemyElement
+                        character="blue"
+                        cellSize={props.cellSize} />
+                    <EnemyElement
+                        character="pink"
+                        cellSize={props.cellSize} />
+                    <EnemyElement
+                        character="orange"
+                        cellSize={props.cellSize} />
                     <PlayerElement
                         cellSize={props.cellSize} />
                 </svg>

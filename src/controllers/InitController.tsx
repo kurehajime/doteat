@@ -3,6 +3,9 @@ import { useRecoilState, useSetRecoilState } from "recoil";
 import { Utils } from "../logics/Utils";
 import { Enemy } from "../models/Enemy";
 import { DotsState } from "../states/DotsState";
+import { EnemyBlueState } from "../states/EnemyBlueState";
+import { EnemyOrangeState } from "../states/EnemyOrangeState";
+import { EnemyPinkState } from "../states/EnemyPinkState";
 import { EnemyRedState } from "../states/EnemyRedState";
 import { FieldState } from "../states/FieldState";
 import { InitState } from "../states/InitState";
@@ -13,6 +16,9 @@ type Props = {
 }
 export default function InitController(props: Props) {
     const setEnemyRed = useSetRecoilState(EnemyRedState);
+    const setEnemyBlue = useSetRecoilState(EnemyBlueState);
+    const setEnemyPink = useSetRecoilState(EnemyPinkState);
+    const setEnemyOrange = useSetRecoilState(EnemyOrangeState);
     const setMiliPlayerPoint = useSetRecoilState(PlayerMiliPointState);
     const setTargetPoint = useSetRecoilState(TargetPointState);
     const setField = useSetRecoilState(FieldState);
@@ -60,6 +66,9 @@ export default function InitController(props: Props) {
             setField(map)
             setDots(dots)
             setEnemyRed(new Enemy({ x: 1, y: 1 }, "red"))
+            setEnemyBlue(new Enemy({ x: 29, y: 1 }, "blue"))
+            setEnemyPink(new Enemy({ x: 1, y: 29 }, "pink"))
+            setEnemyOrange(new Enemy({ x: 29, y: 29 }, "orange"))
             setMiliPlayerPoint({ x: 10 * props.cellSize, y: 10 * props.cellSize })
             setTargetPoint({ x: 25, y: 25 })
         }

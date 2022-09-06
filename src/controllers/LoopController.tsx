@@ -11,11 +11,17 @@ import { PlayerInertiaState } from "../states/PlayerInertiaState";
 import { PlayerMiliPointState } from "../states/PlayerMiliPointState";
 import { TimeState } from "../states/TimeState";
 import { useKey } from 'react-use';
+import { EnemyBlueState } from "../states/EnemyBlueState";
+import { EnemyOrangeState } from "../states/EnemyOrangeState";
+import { EnemyPinkState } from "../states/EnemyPinkState";
 type Props = {
     cellSize: number
 }
 export default function LoopController(props: Props) {
     const [enemyRed, setEnemyRed] = useRecoilState(EnemyRedState);
+    const [enemyBlue, setEnemyBlue] = useRecoilState(EnemyBlueState);
+    const [enemyPink, setEnemyPink] = useRecoilState(EnemyPinkState);
+    const [enemyOrange, setEnemyOrange] = useRecoilState(EnemyOrangeState);
     const [playerMiliPoint, setPlayerMiliPoint] = useRecoilState(PlayerMiliPointState);
     const time = useRecoilValue(TimeState)
     const field = useRecoilValue(FieldState);
@@ -30,6 +36,21 @@ export default function LoopController(props: Props) {
     const enemyRedMove = () => {
         if (field && time % 9 === 0) {
             setEnemyRed(enemyRed.next(field, playerPoint, dots))
+        }
+    }
+    const enemyBlueMove = () => {
+        if (field && time % 8 === 0) {
+            setEnemyBlue(enemyBlue.next(field, playerPoint, dots))
+        }
+    }
+    const enemyPinkMove = () => {
+        if (field && time % 10 === 0) {
+            setEnemyPink(enemyPink.next(field, playerPoint, dots))
+        }
+    }
+    const enemyOrangeMove = () => {
+        if (field && time % 9 === 0) {
+            setEnemyOrange(enemyOrange.next(field, playerPoint, dots))
         }
     }
 
@@ -64,12 +85,30 @@ export default function LoopController(props: Props) {
             if (footPrint.Hit(enemyRed.point)) {
                 setEnemyRed(enemyRed.setPoint({ x: 15, y: 15 }))
             }
+            if (footPrint.Hit(enemyBlue.point)) {
+                setEnemyBlue(enemyBlue.setPoint({ x: 15, y: 14 }))
+            }
+            if (footPrint.Hit(enemyPink.point)) {
+                setEnemyPink(enemyPink.setPoint({ x: 14, y: 15 }))
+            }
+            if (footPrint.Hit(enemyOrange.point)) {
+                setEnemyOrange(enemyOrange.setPoint({ x: 14, y: 14 }))
+            }
             setFilled(false)
             setFootPrint(footPrint.Clear())
         }
     }
     const checkGameOver = () => {
         if (enemyRed.point.x === playerPoint.x && enemyRed.point.y === playerPoint.y) {
+            setPlayerMiliPoint({ x: 15 * props.cellSize, y: 15 * props.cellSize })
+        }
+        if (enemyBlue.point.x === playerPoint.x && enemyBlue.point.y === playerPoint.y) {
+            setPlayerMiliPoint({ x: 15 * props.cellSize, y: 15 * props.cellSize })
+        }
+        if (enemyPink.point.x === playerPoint.x && enemyPink.point.y === playerPoint.y) {
+            setPlayerMiliPoint({ x: 15 * props.cellSize, y: 15 * props.cellSize })
+        }
+        if (enemyOrange.point.x === playerPoint.x && enemyOrange.point.y === playerPoint.y) {
             setPlayerMiliPoint({ x: 15 * props.cellSize, y: 15 * props.cellSize })
         }
     }
@@ -95,6 +134,9 @@ export default function LoopController(props: Props) {
 
     useEffect(() => {
         enemyRedMove()
+        enemyBlueMove()
+        enemyPinkMove()
+        enemyOrangeMove()
         player()
         modeChange()
         return () => { return }

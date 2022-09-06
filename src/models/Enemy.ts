@@ -22,7 +22,21 @@ export class Enemy {
 
     public next(field: Field, player: Point, dots: Dots): Enemy {
         if (this.Mode === "normal") {
-            const next = this.track(field, player)
+            let next: Point = { x: 0, y: 0 }
+            switch (this.charactor) {
+                case "red":
+                    next = this.track(field, player)
+                    break
+                case "blue":
+                    next = this.random(field, dots)[0]
+                    break
+                case "pink":
+                    next = this.track(field, player)
+                    break
+                case "orange":
+                    next = this.track(field, player)
+                    break
+            }
             return new Enemy(next, this.charactor, this.target, this.tick + 1)
         } else {
             const next = this.random(field, dots)
