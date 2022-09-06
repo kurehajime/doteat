@@ -39,7 +39,7 @@ export default function LoopController(props: Props) {
         }
     }
     const enemyBlueMove = () => {
-        if (field && time % 8 === 0) {
+        if (field && time % 7 === 0) {
             setEnemyBlue(enemyBlue.next(field, playerPoint, dots))
         }
     }

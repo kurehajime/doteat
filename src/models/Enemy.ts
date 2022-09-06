@@ -6,7 +6,7 @@ import { Dots } from "./Dots"
 
 export class Enemy {
     public get Mode(): EnemyMode {
-        const mode = (this.tick / 35 | 0)
+        const mode = (this.tick / 30 | 0)
         if (mode % 2 === 0) {
             return "normal"
         }
@@ -23,21 +23,22 @@ export class Enemy {
     public next(field: Field, player: Point, dots: Dots): Enemy {
         if (this.Mode === "normal") {
             let next: Point = { x: 0, y: 0 }
+            let target = this.target || this.point
             switch (this.charactor) {
                 case "red":
                     next = this.track(field, player)
                     break
                 case "blue":
-                    next = this.random(field, dots)[0]
+                    [next, target] = this.random(field, dots)
                     break
                 case "pink":
-                    next = this.track(field, player)
+                    [next, target] = this.random(field, dots)
                     break
                 case "orange":
-                    next = this.track(field, player)
+                    [next, target] = this.random(field, dots)
                     break
             }
-            return new Enemy(next, this.charactor, this.target, this.tick + 1)
+            return new Enemy(next, this.charactor, target, this.tick + 1)
         } else {
             const next = this.random(field, dots)
             return new Enemy(next[0], this.charactor, next[1], this.tick + 1)
