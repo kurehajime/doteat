@@ -15,6 +15,8 @@ import { EnemyBlueState } from "../states/EnemyBlueState";
 import { EnemyOrangeState } from "../states/EnemyOrangeState";
 import { EnemyPinkState } from "../states/EnemyPinkState";
 import { ScoreState } from "../states/ScoreState";
+import { Direction } from "../models/Types";
+import { Point } from "../models/Point";
 type Props = {
     cellSize: number
 }
@@ -58,18 +60,26 @@ export default function LoopController(props: Props) {
 
     const player = () => {
         if (field && time % 3 === 0) {
-            const keyNext = key ? field.GetNext(playerPoint, key) : null
-            const inertiaNext = playerInertia ? field.GetNext(playerPoint, playerInertia) : null
+            const keyNext = key ? field.GetNext(playerPoint, key) : [null, "none"] as [Point | null, Direction]
+            const inertiaNext = playerInertia ? field.GetNext(playerPoint, playerInertia) : [null, "none"] as [Point | null, Direction]
             let next = playerPoint
             let move = false
             setFootPrint(footPrint.Add(playerPoint))
-            if (keyNext) {
-                next = { x: playerMiliPoint.x + keyNext.x * (props.cellSize / 3), y: playerMiliPoint.y + keyNext.y * (props.cellSize / 3) }
+            if (keyNext[0]) {
+                next = { x: playerMiliPoint.x + keyNext[0].x * (props.cellSize / 3), y: playerMiliPoint.y + keyNext[0].y * (props.cellSize / 3) }
                 setPlayerMiliPoint(next)
                 setPlayerInertia(key)
                 move = true
-            } else if (inertiaNext) {
-                next = { x: playerMiliPoint.x + inertiaNext.x * (props.cellSize / 3), y: playerMiliPoint.y + inertiaNext.y * (props.cellSize / 3) }
+            } else if (inertiaNext[0]) {
+                next = { x: playerMiliPoint.x + inertiaNext[0].x * (props.cellSize / 3), y: playerMiliPoint.y + inertiaNext[0].y * (props.cellSize / 3) }
+                setPlayerMiliPoint(next)
+                move = true
+            } else if (keyNext[1] === "left" || inertiaNext[1] === "left") {
+                next = { x: 0, y: playerMiliPoint.y }
+                setPlayerMiliPoint(next)
+                move = true
+            } else if (keyNext[1] === "right" || inertiaNext[1] === "right") {
+                next = { x: field.Width * props.cellSize, y: playerMiliPoint.y }
                 setPlayerMiliPoint(next)
                 move = true
             }

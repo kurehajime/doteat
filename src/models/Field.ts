@@ -68,7 +68,7 @@ export class Field {
         return "none"
     }
 
-    public GetNext(point: Point, key: string): Point | null {
+    public GetNext(point: Point, key: string): [allow: Point | null, warp: Direction] {
         let next: Point | null = null;
         switch (key) {
             case "ArrowUp":
@@ -84,23 +84,23 @@ export class Field {
                 next = { x: point.x + 1, y: point.y }
                 break
             default:
-                return null
+                return [null, "none"]
         }
         if (next.x == -1) {
-            next.x = this.width - 1;
+            return [null, "right"];
         }
         if (next.x == this.width) {
-            next.x = 0;
+            return [null, "left"];
         }
         if (next.y == -1) {
-            next.y = this.width - 1;
+            return [null, "bottom"];
         }
         if (next.y == this.width) {
-            next.y = 0;
+            return [null, "top"];
         }
         if (this.IsWalkable(next)) {
-            return { x: next.x - point.x, y: next.y - point.y };
+            return [{ x: next.x - point.x, y: next.y - point.y }, "none"];
         }
-        return null
+        return [null, "none"]
     }
 }
