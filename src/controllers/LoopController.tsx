@@ -1,5 +1,5 @@
 import { useEffect } from "react";
-import { useRecoilState, useRecoilValue, useSetRecoilState } from "recoil";
+import { useRecoilState, useRecoilValue } from "recoil";
 import { DotsState } from "../states/DotsState";
 import { EnemyModeState } from "../states/EnemyModeState";
 import { EnemyRedState } from "../states/EnemyRedState";
@@ -120,22 +120,12 @@ export default function LoopController(props: Props) {
         }
     }
     const checkGameOver = () => {
-        if (enemyRed.point.x === playerPoint.x && enemyRed.point.y === playerPoint.y) {
+        if (enemyRed.point.x === playerPoint.x && enemyRed.point.y === playerPoint.y ||
+            enemyBlue.point.x === playerPoint.x && enemyBlue.point.y === playerPoint.y ||
+            enemyPink.point.x === playerPoint.x && enemyPink.point.y === playerPoint.y ||
+            enemyOrange.point.x === playerPoint.x && enemyOrange.point.y === playerPoint.y ||
+            score < 0) {
             setPlayerMiliPoint({ x: 15 * props.cellSize, y: 15 * props.cellSize })
-        }
-        if (enemyBlue.point.x === playerPoint.x && enemyBlue.point.y === playerPoint.y) {
-            setPlayerMiliPoint({ x: 15 * props.cellSize, y: 15 * props.cellSize })
-        }
-        if (enemyPink.point.x === playerPoint.x && enemyPink.point.y === playerPoint.y) {
-            setPlayerMiliPoint({ x: 15 * props.cellSize, y: 15 * props.cellSize })
-        }
-        if (enemyOrange.point.x === playerPoint.x && enemyOrange.point.y === playerPoint.y) {
-            setPlayerMiliPoint({ x: 15 * props.cellSize, y: 15 * props.cellSize })
-        }
-        if (score) {
-            if (score < 0) {
-                setPlayerMiliPoint({ x: 15 * props.cellSize, y: 15 * props.cellSize })
-            }
         }
     }
     const eat = () => {
